@@ -89,9 +89,25 @@ def detect_time_range(question):
 
     q = question.lower()
 
+    since_match = re.search(r'since\s+(\d{4})', q)
+    if since_match:
+        start = dateparser.parse(since_match.group(1))
+        end = datetime.today()
+        return start, end
+
+    around_match = re.search(r'around\s+(.+)', q)
+    if around_match:
+        parsed = dateparser.parse(around_match.group(1))
+        if parsed:
+            start = parsed - timedelta(days=7)
+            end = parsed + timedelta(days=7)
+            return start, end
+
     date_matches = re.findall(
         r'(\d{1,2}[./-]\d{1,2}[./-]\d{2,4}|'
+        r'\d{4}[./-]\d{1,2}[./-]\d{1,2}|'
         r'(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s*\d{1,2}(?:st|nd|rd|th)?\,?\s*\d{4}|'
+        r'\d{1,2}(?:st|nd|rd|th)?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\,?\s*\d{4}|'
         r'\d{1,2}\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s*\d{4}|'
         r'(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s*\d{4}|'
         r'\b\d{4}\b)',
@@ -104,6 +120,10 @@ def detect_time_range(question):
         end = dateparser.parse(date_matches[1])
 
         if start and end:
+
+            if start > end:
+                start, end = end, start
+
             return start, end
 
     if len(date_matches) == 1:
@@ -111,17 +131,40 @@ def detect_time_range(question):
         start = dateparser.parse(date_matches[0])
 
         if start:
-            end = start + timedelta(days=1)
+            end = datetime.today()
             return start, end
 
     return None, None
 
 
-# ---------------- FREE-FORM RELATIVE TIME DETECTION ----------------
+# ---------------- RELATIVE TIME DETECTION ----------------
 
 def detect_time_period(question):
 
     q = question.lower()
+
+    word_to_num = {
+        "one":1,"two":2,"three":3,"four":4,"five":5,
+        "six":6,"seven":7,"eight":8,"nine":9,"ten":10
+    }
+
+    for word,num in word_to_num.items():
+        q = re.sub(rf"\b{word}\b", str(num), q)
+
+    if "half year" in q:
+        return "6mo"
+
+    if "quarter" in q:
+        return "3mo"
+
+    if "decade" in q:
+        return "10y"
+
+    if "couple" in q:
+        q = q.replace("couple","2")
+
+    if "few" in q:
+        q = q.replace("few","3")
 
     if "today" in q:
         return "1d"
@@ -130,7 +173,7 @@ def detect_time_period(question):
         return "2d"
 
     match = re.search(
-        r'(?:last|past|previous|over the last|in the last)?\s*(\d+)\s*(day|days|week|weeks|month|months|year|years)',
+        r'(?:last|past|previous|over the last|in the last|during|for)?\s*(\d+)\s*(day|days|week|weeks|month|months|year|years)',
         q
     )
 
@@ -290,12 +333,17 @@ Market Sentiment:
 Write a concise professional explanation of the stock movement.
 """
 
-    response = client.responses.create(
-        model="gpt-4.1-mini",
-        input=prompt
-    )
+    try:
 
-    return response.output_text
+        response = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt
+        )
+
+        return response.output_text
+
+    except:
+        return "AI analysis could not be generated."
 
 
 # ---------------- UI ----------------
@@ -336,7 +384,6 @@ if st.button("Analyze"):
         data = get_stock_data(ticker, period=period)
         news = get_news(ticker, period=period)
 
-
     st.subheader("Company Overview")
 
     col1, col2 = st.columns([3,2])
@@ -346,6 +393,8 @@ if st.button("Analyze"):
         st.markdown(f"**Ticker:** {ticker}")
         st.markdown(f"**Sector:** {sector}")
         st.markdown(f"**Industry:** {industry}")
+
+    pct = 0
 
     if data is not None and not data.empty:
 
@@ -387,6 +436,9 @@ if st.button("Analyze"):
         )
 
         st.plotly_chart(fig,use_container_width=True)
+
+    else:
+        st.warning("No market data found for the selected period.")
 
     st.subheader("Market News")
 
