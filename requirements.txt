@@ -1,9 +1,11 @@
 streamlit
-yfinance
 pandas
 numpy
-openai
-langchain
-faiss-cpu
-python-dateutil
+yfinance
 requests
+langchain
+openai
+faiss-cpu
+python-dotenv
+dateparser
+plotly
