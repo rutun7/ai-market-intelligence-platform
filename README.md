@@ -1,6 +1,10 @@
 # AI Market Intelligence Platform
 
-## Overview
+AI-powered financial intelligence platform that explains stock price movements from **free-form natural language queries** using financial data, news context, Retrieval-Augmented Generation (RAG), and LLM reasoning.
+
+---
+
+# Overview
 
 The **AI Market Intelligence Platform** is an AI-powered financial analytics application that explains **why a stock moved during a specific time period** by combining financial data, market news, vector search, and large language models.
 
@@ -10,18 +14,19 @@ Instead of manually reviewing multiple financial sources, users can ask natural 
 - "How did Apple perform in the last 3 months?"
 - "Why did Tesla stock move last week?"
 
-The platform retrieves stock price data, financial news, historical context, and generates an **AI-powered hedge fund style research explanation**.
+The platform retrieves stock price data, financial news, historical context, and generates an **AI-powered hedge fund-style research explanation**.
 
 ---
 
-## Key Features
+# Key Features
 
-### Natural Language Stock Analysis
+## Natural Language Stock Analysis
+
 Users can ask questions in natural language and the system automatically identifies:
 
-- Company name
-- Stock ticker
-- Time range
+- Company name  
+- Stock ticker  
+- Time range  
 
 Example query:
 
@@ -31,47 +36,97 @@ What happened to Nvidia in the last 10 days?
 
 ---
 
-### Financial Market Visualization
+## Flexible Natural Language Time Understanding
+
+The platform supports **very flexible time expressions**, allowing users to query stock movements using different natural language formats.
+
+### Relative periods
+
+```
+How did Nvidia perform over the past 5 years?
+How did Dell stock move during the previous 3 days?
+What happened to Tesla in the last two months?
+```
+
+### Written numbers
+
+```
+How did Apple perform during the past five years?
+Analyze AMD over the past three months
+```
+
+### Natural phrases
+
+```
+How did Nvidia perform over the past quarter?
+What happened to Tesla during the past decade?
+```
+
+### Specific date ranges
+
+```
+Analyze Nvidia between Jan 18 2025 and Feb 10 2025
+Analyze Nvidia between 18 January 2025 and 02-02-2025
+```
+
+### Loose expressions
+
+```
+How did Apple perform since 2023?
+What happened to Tesla around March 2024?
+```
+
+The system interprets these expressions using **regex-based extraction and the `dateparser` library**, converting them into structured financial queries.
+
+---
+
+## Financial Market Visualization
 
 The platform generates an interactive financial chart including:
 
-- Candlestick price chart
-- Moving averages (MA20, MA50)
-- Trading volume
+- Candlestick price chart  
+- Moving averages (**MA20**, **MA50**)  
+- Trading volume  
 
 Charts are built using **Plotly** and displayed in **Streamlit**.
 
 ---
 
-### Financial News Intelligence
+## Financial News Intelligence
 
 Market news is retrieved using the **Finnhub API** to provide contextual explanations of stock movements.
 
 ---
 
-### Retrieval Augmented Generation (RAG)
+## Retrieval Augmented Generation (RAG)
 
 The system uses **FAISS vector search** to retrieve historical financial context relevant to the user’s question.
 
----
-
-### Knowledge Graph Context
-
-A lightweight **knowledge graph module** provides structured company context such as sector and industry information.
+This allows the AI model to generate **more grounded and informed explanations**.
 
 ---
 
-### AI Hedge Fund Research Report
+## Knowledge Graph Context
+
+A lightweight **knowledge graph module** provides structured company context such as:
+
+- Sector  
+- Industry  
+- Company metadata  
+
+---
+
+## AI Hedge Fund Research Report
 
 The platform combines:
 
-- Price movements
-- Market news
-- Sentiment signals
-- Historical context
-- Knowledge graph insights
+- Price movements  
+- Market news  
+- Sentiment signals  
+- Historical context  
+- Knowledge graph insights  
 
-to generate a **professional AI-generated research explanation**.
+to generate a **professional AI-generated hedge fund style research explanation**.
 
 ---
 
@@ -111,46 +166,51 @@ M --> N[AI Hedge Fund Research Report]
 
 # Key AI Components
 
-### Context Engineering
+## Context Engineering
 
 The system builds structured input for the LLM by combining:
 
-- Stock price analysis
-- Financial news
-- Historical financial context
-- Knowledge graph data
-- Market sentiment signals
+- Stock price analysis  
+- Financial news  
+- Historical financial context  
+- Knowledge graph data  
+- Market sentiment signals  
 
-This structured context improves the quality of AI explanations.
+This structured context improves the **quality and reliability of AI-generated explanations**.
 
 ---
 
-### Retrieval Augmented Generation (RAG)
+## Retrieval Augmented Generation (RAG)
 
 A **FAISS vector database** retrieves relevant historical financial context to augment the AI model’s knowledge.
 
-This enables the model to produce more grounded and informative answers.
+This enables the model to produce **more grounded and informative answers**.
 
 ---
 
-### Event Detection
+## Event Detection
 
 The platform detects key market events from news headlines such as:
 
-- Earnings announcements
-- Analyst upgrades/downgrades
-- Lawsuits
-- Acquisitions and mergers
+- Earnings announcements  
+- Analyst upgrades / downgrades  
+- Lawsuits  
+- Acquisitions  
+- Mergers  
 
 ---
 
-### Sentiment Analysis
+## Sentiment Analysis
 
-A lightweight sentiment agent analyzes news headlines to determine whether the overall market tone is **positive, neutral, or negative**.
+A lightweight sentiment agent analyzes news headlines to determine whether the overall market tone is:
+
+- Positive  
+- Neutral  
+- Negative  
 
 ---
 
-### LLM Synthesis Agent
+## LLM Synthesis Agent
 
 The synthesis agent combines all signals into a **concise hedge fund style explanation** of the stock movement.
 
@@ -160,33 +220,35 @@ The synthesis agent combines all signals into a **concise hedge fund style expla
 
 ## Example Query
 
-"What happened to qualcomm over the past 4 months?"
+```
+What happened to Qualcomm over the past four months?
+```
 
 ## Platform Output
 
 The system will:
 
-1. Identify the stock ticker
-2. Retrieve stock price data
-3. Generate financial charts
-4. Retrieve financial news
-5. Detect events and sentiment
-6. Retrieve historical context via FAISS
-7. Generate an AI-powered explanation
+1. Identify the stock ticker  
+2. Retrieve stock price data  
+3. Generate financial charts  
+4. Retrieve financial news  
+5. Detect events and sentiment  
+6. Retrieve historical context via FAISS  
+7. Generate an AI-powered explanation  
 
 ---
 
-## Example Screenshots
+# Example Screenshots
 
-### Stock Analysis Dashboard
+## Stock Analysis Dashboard
 
 ![Dashboard](screenshots/screenshot_image1.png)
 
-### Financial Chart
+## Financial Chart
 
 ![Chart](screenshots/screenshot_image2.png)
 
-### AI Generated Research Report
+## AI Generated Research Report
 
 ![Report](screenshots/screenshot_image3.png)
 
@@ -194,18 +256,17 @@ The system will:
 
 # Tech Stack
 
-- Python
-- Streamlit
-- Plotly
-- LangChain
-- OpenAI API
-- FAISS (vector search)
-- Yahoo Finance API
-- Finnhub API
-- Pandas
-- NumPy
-- python-dotenv
-- dateparser
+- Python  
+- Streamlit  
+- Plotly  
+- OpenAI API  
+- FAISS (vector search)  
+- Yahoo Finance API  
+- Finnhub API  
+- Pandas  
+- NumPy  
+- python-dotenv  
+- dateparser  
 
 ---
 
@@ -294,11 +355,11 @@ The AI Market Intelligence Platform helps investors and analysts quickly underst
 
 Instead of manually analyzing multiple financial sources, the platform automatically combines:
 
-- Stock price data
-- Financial news
-- Market events
-- Historical financial context
-- AI reasoning
+- Stock price data  
+- Financial news  
+- Market events  
+- Historical financial context  
+- AI reasoning  
 
 This significantly reduces research time and demonstrates how **AI can enhance financial intelligence workflows**.
 
