@@ -1,0 +1,9 @@
+streamlit
+yfinance
+pandas
+numpy
+openai
+langchain
+faiss-cpu
+python-dateutil
+requests
