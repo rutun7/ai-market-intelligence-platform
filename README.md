@@ -160,7 +160,7 @@ The synthesis agent combines all signals into a **concise hedge fund style expla
 
 ## Example Query
 
-"What happened to Bank of America in the last 12 days?"
+"What happened to qualcomm over the past 4 months?"
 
 ## Platform Output
 
