@@ -2,109 +2,205 @@
 
 ## Overview
 
-The **AI Market Intelligence Platform** is an AI-powered application that analyzes stock market movements and explains **why a stock price changed during a specific time period**.
+The **AI Market Intelligence Platform** is an AI-powered financial analytics application that explains **why a stock moved during a specific time period** by combining financial data, market news, vector search, and large language models.
 
-Instead of manually reviewing multiple financial sources, users can ask **natural language questions** such as:
+Instead of manually reviewing multiple financial sources, users can ask natural language questions such as:
 
 - "What happened to Bank of America in the last 12 days?"
 - "How did Apple perform in the last 3 months?"
 - "Why did Tesla stock move last week?"
 
-The platform retrieves **stock price data, market news, and contextual information**, then generates an **AI-driven explanation of the stock movement**.
+The platform retrieves stock price data, financial news, historical context, and generates an **AI-powered hedge fund style research explanation**.
 
 ---
 
 ## Key Features
 
-### Natural Language Stock Queries
-Users can ask questions in free-form language.
+### Natural Language Stock Analysis
+Users can ask questions in natural language and the system automatically identifies:
 
-Example:
+- Company name
+- Stock ticker
+- Time range
+
+Example query:
 
 ```
-What happened to Bank of America in the last 12 days?
+What happened to Nvidia in the last 10 days?
 ```
-
-The system interprets the question and determines the correct company and time range.
 
 ---
 
-### Dynamic Time Interpretation
+### Financial Market Visualization
 
-The platform understands flexible time expressions such as:
+The platform generates an interactive financial chart including:
 
-- Last 7 days
-- Last 2 weeks
-- Last 3 months
-- Last 1 year
-- Today
-
-This allows users to analyze market movements without specifying exact dates.
-
----
-
-### Financial Data Retrieval
-
-The system retrieves stock price data using **Yahoo Finance (yfinance)**.
-
-It calculates indicators such as:
-
+- Candlestick price chart
 - Moving averages (MA20, MA50)
-- Price changes over time
-- Volume trends
+- Trading volume
+
+Charts are built using **Plotly** and displayed in **Streamlit**.
 
 ---
 
-### Financial News Context
+### Financial News Intelligence
 
-The system retrieves relevant financial news using the **Finnhub API** to provide context for market movements.
+Market news is retrieved using the **Finnhub API** to provide contextual explanations of stock movements.
 
 ---
 
 ### Retrieval Augmented Generation (RAG)
 
-The platform uses **RAG (Retrieval Augmented Generation)** to combine:
-
-1. Stock price data
-2. Financial news context
-3. AI reasoning using large language models
-
-FAISS is used for **vector search and contextual retrieval**.
+The system uses **FAISS vector search** to retrieve historical financial context relevant to the user’s question.
 
 ---
 
-## Architecture
+### Knowledge Graph Context
 
-The system follows this pipeline:
+A lightweight **knowledge graph module** provides structured company context such as sector and industry information.
 
-```
-User Question
-      ↓
-Time Interpretation
-      ↓
-Stock Data Retrieval (Yahoo Finance)
-      ↓
-Financial News Retrieval (Finnhub)
-      ↓
-Vector Search (FAISS)
-      ↓
-Context Engineering
-      ↓
-LLM Explanation Generation
-      ↓
-AI Market Intelligence Output
+---
+
+### AI Hedge Fund Research Report
+
+The platform combines:
+
+- Price movements
+- Market news
+- Sentiment signals
+- Historical context
+- Knowledge graph insights
+
+to generate a **professional AI-generated research explanation**.
+
+---
+
+# System Architecture (RAG + Financial Analytics Pipeline)
+
+The platform combines **financial data retrieval, contextual intelligence, vector search, and LLM reasoning**.
+
+```mermaid
+flowchart TD
+
+A[User Question] --> B[Company & Time Extraction]
+
+B --> C[Stock Data Retrieval - Yahoo Finance]
+B --> D[Financial News Retrieval - Finnhub]
+
+C --> E[Technical Indicators]
+E --> F[Financial Visualization]
+F --> G[Interactive Chart - Plotly]
+
+D --> H[Event Detection]
+H --> I[Sentiment Analysis]
+
+B --> J[RAG Context Retrieval - FAISS]
+B --> K[Knowledge Graph Context]
+
+E --> L[Context Engineering]
+I --> L
+J --> L
+K --> L
+
+L --> M[LLM Synthesis - OpenAI]
+
+M --> N[AI Hedge Fund Research Report]
 ```
 
 ---
 
-## Tech Stack
+# Key AI Components
+
+### Context Engineering
+
+The system builds structured input for the LLM by combining:
+
+- Stock price analysis
+- Financial news
+- Historical financial context
+- Knowledge graph data
+- Market sentiment signals
+
+This structured context improves the quality of AI explanations.
+
+---
+
+### Retrieval Augmented Generation (RAG)
+
+A **FAISS vector database** retrieves relevant historical financial context to augment the AI model’s knowledge.
+
+This enables the model to produce more grounded and informative answers.
+
+---
+
+### Event Detection
+
+The platform detects key market events from news headlines such as:
+
+- Earnings announcements
+- Analyst upgrades/downgrades
+- Lawsuits
+- Acquisitions and mergers
+
+---
+
+### Sentiment Analysis
+
+A lightweight sentiment agent analyzes news headlines to determine whether the overall market tone is **positive, neutral, or negative**.
+
+---
+
+### LLM Synthesis Agent
+
+The synthesis agent combines all signals into a **concise hedge fund style explanation** of the stock movement.
+
+---
+
+# Example Output
+
+## Example Query
+
+"What happened to Bank of America in the last 12 days?"
+
+## Platform Output
+
+The system will:
+
+1. Identify the stock ticker
+2. Retrieve stock price data
+3. Generate financial charts
+4. Retrieve financial news
+5. Detect events and sentiment
+6. Retrieve historical context via FAISS
+7. Generate an AI-powered explanation
+
+---
+
+## Example Screenshots
+
+### Stock Analysis Dashboard
+
+![Dashboard](screenshots/screenshot_image1.png)
+
+### Financial Chart
+
+![Chart](screenshots/screenshot_image2.png)
+
+### AI Generated Research Report
+
+![Report](screenshots/screenshot_image3.png)
+
+---
+
+# Tech Stack
 
 - Python
 - Streamlit
+- Plotly
 - LangChain
-- OpenAI
-- FAISS
-- Yahoo Finance API (yfinance)
+- OpenAI API
+- FAISS (vector search)
+- Yahoo Finance API
 - Finnhub API
 - Pandas
 - NumPy
@@ -113,7 +209,7 @@ AI Market Intelligence Output
 
 ---
 
-## Installation
+# Installation
 
 Clone the repository:
 
@@ -135,19 +231,19 @@ pip install -r requirements.txt
 
 ---
 
-## API Setup
+# API Setup
 
 This project requires API keys.
 
 ### OpenAI API
 
-Create an API key at:
+Create a key:
 
 https://platform.openai.com/api-keys
 
 ### Finnhub API
 
-Create an API key at:
+Create a key:
 
 https://finnhub.io
 
@@ -160,76 +256,55 @@ FINNHUB_API_KEY=your_finnhub_api_key
 
 ---
 
-## Running the Application
+# Running the Application
 
-Run the Streamlit application:
+Run the Streamlit app:
 
 ```
 streamlit run app.py
 ```
 
-Then open the browser URL shown in the terminal.
+Then open the local URL shown in the terminal.
 
 ---
 
-## Example Use Case
-
-User Query:
-
-```
-What happened to Bank of America in the last 12 days?
-```
-
-The system will:
-
-1. Identify the stock ticker
-2. Retrieve stock data
-3. Retrieve financial news
-4. Retrieve contextual information using FAISS
-5. Generate an AI explanation of the stock movement
-
----
-
-## Business Value
-
-The **AI Market Intelligence Platform** helps investors, analysts, and researchers quickly understand **what caused stock market movements**.
-
-Instead of manually reviewing multiple financial data sources, the platform automatically combines:
-
-- Stock market data
-- Financial news
-- AI reasoning
-
-This reduces analysis time and improves **decision-making speed in financial research workflows**.
-
----
-
-## Project Structure
+# Project Structure
 
 ```
 ai-market-intelligence-platform
 │
 ├── app.py
 ├── financial_rag.py
+├── knowledge_graph.py
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
-└── .env.example
+├── .env.example
+└── screenshots
+    ├── screenshot_image1.png
+    ├── screenshot_image2.png
+    └── screenshot_image3.png
 ```
 
 ---
 
-## Future Improvements
+# Business Value
 
-- Real-time financial news integration
-- Advanced technical indicators
-- Multi-stock comparison
-- Market sentiment analysis
-- Portfolio analytics
+The AI Market Intelligence Platform helps investors and analysts quickly understand **why a stock moved during a specific period**.
+
+Instead of manually analyzing multiple financial sources, the platform automatically combines:
+
+- Stock price data
+- Financial news
+- Market events
+- Historical financial context
+- AI reasoning
+
+This significantly reduces research time and demonstrates how **AI can enhance financial intelligence workflows**.
 
 ---
 
-## Author
+# Author
 
 **Rutunjay Chundur**
 
