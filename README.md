@@ -221,7 +221,7 @@ The synthesis agent combines all signals into a **concise hedge fund style expla
 ## Example Query
 
 ```
-What happened to Qualcomm over the past 4 months?
+What happened to qualcomm over the past 4 months?
 ```
 
 ## Platform Output
